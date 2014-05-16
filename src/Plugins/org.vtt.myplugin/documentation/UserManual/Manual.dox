@@ -1,0 +1,18 @@
+/**
+\page org_vtt_myplugin Myplugin
+
+\image html icon.xpm "Icon of Myplugin"
+
+Available sections:
+  - \ref org_vtt_mypluginOverview
+
+\section org_vtt_mypluginOverview
+Describe the features of your awesome plugin here
+<ul>
+<li>Increases productivity
+<li>Creates beautiful images
+<li>Generates PhD thesis
+<li>Brings world peace
+</ul>
+
+*/
