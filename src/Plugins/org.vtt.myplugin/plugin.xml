@@ -5,7 +5,7 @@
     <view id="org.mitk.views.vttview"
           name="VttView"
           class="VttView"
-          icon="resources/icon.xpm" />
+          icon="resources/logo.png" />
   </extension>
 
 </plugin>

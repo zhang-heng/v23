@@ -21,14 +21,14 @@ set(MOC_H_FILES
 # for example the icon used in the menu and tabs for the
 # plug-in views in the workbench
 set(CACHED_RESOURCE_FILES
-  resources/icon.xpm
   plugin.xml
+  resources/logo.png
 )
 
 # list of Qt .qrc files which contain additional resources
 # specific to this plugin
 set(QRC_FILES
-
+  resources/myplugin.qrc
 )
 
 set(CPP_FILES )

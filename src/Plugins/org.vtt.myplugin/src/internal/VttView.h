@@ -47,6 +47,9 @@ class VttView : public QmitkAbstractView
 
     /// \brief Called when the user clicks the GUI button
     void DoImageProcessing();
+    void OnStepsChanged(const int &step);
+    void OnButtonPrev();
+    void OnButtonNext();
 
   protected:
 

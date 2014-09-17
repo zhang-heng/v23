@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/org.vtt.myplugin">
+        <file>logo.png</file>
+        <file>go-next.png</file>
+        <file>go-previous.png</file>
+        <file>Load_48.png</file>
+    </qresource>
+</RCC>

@@ -1,18 +1,18 @@
 /*===================================================================
 
-The Medical Imaging Interaction Toolkit (MITK)
+  The Medical Imaging Interaction Toolkit (MITK)
 
-Copyright (c) German Cancer Research Center,
-Division of Medical and Biological Informatics.
-All rights reserved.
+  Copyright (c) German Cancer Research Center,
+  Division of Medical and Biological Informatics.
+  All rights reserved.
 
-This software is distributed WITHOUT ANY WARRANTY; without
-even the implied warranty of MERCHANTABILITY or FITNESS FOR
-A PARTICULAR PURPOSE.
+  This software is distributed WITHOUT ANY WARRANTY; without
+  even the implied warranty of MERCHANTABILITY or FITNESS FOR
+  A PARTICULAR PURPOSE.
 
-See LICENSE.txt or http://www.mitk.org for details.
+  See LICENSE.txt or http://www.mitk.org for details.
 
-===================================================================*/
+  ===================================================================*/
 
 
 // Blueberry
@@ -30,72 +30,118 @@ const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
 void VttView::SetFocus()
 {
-  m_Controls.buttonPerformImageProcessing->setFocus();
+  //m_Controls.buttonPerformImageProcessing->setFocus();
 }
 
 void VttView::CreateQtPartControl( QWidget *parent )
 {
   // create GUI widgets from the Qt Designer's .ui file
-  m_Controls.setupUi( parent );
-  connect( m_Controls.buttonPerformImageProcessing, SIGNAL(clicked()), this, SLOT(DoImageProcessing()) );
+  m_Controls.setupUi(parent);
+  //connect( m_Controls.buttonPerformImageProcessing, SIGNAL(clicked()), this, SLOT(DoImageProcessing()) );
+  connect(m_Controls.comboBoxSteps, SIGNAL(currentIndexChanged(const int &)), this, SLOT(OnStepsChanged(const int &)));
+  connect(m_Controls.ButtonPrev, SIGNAL(clicked()), this, SLOT(OnButtonPrev()));
+  connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
+  m_Controls.comboBoxSteps->setCurrentIndex(0);
+  this->OnStepsChanged(0);
+  m_Controls.ButtonPrev->setIcon(QIcon(":/org.vtt.myplugin/go-previous.png"));
+  m_Controls.ButtonNext->setIcon(QIcon(":/org.vtt.myplugin/go-next.png"));
+  m_Controls.ButtonImport->setIcon(QIcon(":/org.vtt.myplugin/Load_48.png"));
+}
+
+void VttView::OnStepsChanged(const int &step){
+  if(step > 0)
+    m_Controls.ButtonPrev->setEnabled(true);
+  else
+    m_Controls.ButtonPrev->setEnabled(false);
+  if(step+1 < m_Controls.comboBoxSteps->count())
+    m_Controls.ButtonNext->setEnabled(true);
+  else
+    m_Controls.ButtonNext->setEnabled(false);
+  m_Controls.stackedWidget->setCurrentIndex(step);
+}
+
+void VttView::OnButtonPrev(){
+  int currentIndex = m_Controls.comboBoxSteps->currentIndex();
+  currentIndex--;
+  if (currentIndex >= 0)
+    m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
+}
+
+void VttView::OnButtonNext(){
+  int currentIndex = m_Controls.comboBoxSteps->currentIndex();
+  currentIndex++;
+  if (currentIndex < m_Controls.comboBoxSteps->count())
+    m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
 }
 
 void VttView::OnSelectionChanged( berry::IWorkbenchPart::Pointer /*source*/,
-                                             const QList<mitk::DataNode::Pointer>& nodes )
+                                  const QList<mitk::DataNode::Pointer>& nodes )
 {
-  // iterate all selected objects, adjust warning visibility
-  foreach( mitk::DataNode::Pointer node, nodes )
-  {
-    if( node.IsNotNull() && dynamic_cast<mitk::Image*>(node->GetData()) )
-    {
-      m_Controls.labelWarning->setVisible( false );
-      m_Controls.buttonPerformImageProcessing->setEnabled( true );
-      return;
-    }
-  }
+  // m_Controls.buttonPerformImageProcessing->setEnabled( true );
+  // return;
 
-  m_Controls.labelWarning->setVisible( true );
-  m_Controls.buttonPerformImageProcessing->setEnabled( false );
+  // // iterate all selected objects, adjust warning visibility
+  // foreach( mitk::DataNode::Pointer node, nodes )
+  //   {
+  //     if( node.IsNotNull() && dynamic_cast<mitk::Image*>(node->GetData()) )
+  //       {
+  //         m_Controls.labelWarning->setVisible( false );
+  //         m_Controls.buttonPerformImageProcessing->setEnabled( true );
+  //         return;
+  //       }
+  //   }
+
+  // //m_Controls.labelWarning->setVisible( true );
+  // //m_Controls.buttonPerformImageProcessing->setEnabled( false );
 }
 
 
 void VttView::DoImageProcessing()
 {
-  QList<mitk::DataNode::Pointer> nodes = this->GetDataManagerSelection();
-  if (nodes.empty()) return;
+  // mitk::IRenderWindowPart* renderWindow = this->GetRenderWindowPart();
+  // if (renderWindow == NULL){
+  //   renderWindow = this->GetRenderWindowPart(QmitkAbstractView::BRING_TO_FRONT | QmitkAbstractView::OPEN);
+  // }else{
+  //   mitk::IDataStorageReference::Pointer pds = this->GetDataStorageReference();
 
-  mitk::DataNode* node = nodes.front();
+  // }
+  // if (renderWindow == NULL) return;
 
-  if (!node)
-  {
-    // Nothing selected. Inform the user and return
-    QMessageBox::information( NULL, "Template", "Please load and select an image before starting image processing.");
-    return;
-  }
+  // QList<mitk::DataNode::Pointer> nodes = this->GetDataManagerSelection();
+  // if (nodes.empty()) return;
 
-  // here we have a valid mitk::DataNode
+  // mitk::DataNode* node = nodes.front();
 
-  // a node itself is not very useful, we need its data item (the image)
-  mitk::BaseData* data = node->GetData();
-  if (data)
-  {
-    // test if this data item is an image or not (could also be a surface or something totally different)
-    mitk::Image* image = dynamic_cast<mitk::Image*>( data );
-    if (image)
-    {
-      std::stringstream message;
-      std::string name;
-      message << "Performing image processing for image ";
-      if (node->GetName(name))
-      {
-        // a property called "name" was found for this DataNode
-        message << "'" << name << "'";
-      }
-      message << ".";
-      MITK_INFO << message.str();
+  // if (!node)
+  //   {
+  //     // Nothing selected. Inform the user and return
+  //     QMessageBox::information( NULL, "Template", "Please load and select an image before starting image processing.");
+  //     return;
+  //   }
 
-      // actually do something here...
+  // // here we have a valid mitk::DataNode
 
-    }
-  }
+  // // a node itself is not very useful, we need its data item (the image)
+  // mitk::BaseData* data = node->GetData();
+  // if (data)
+  //   {
+  //     // test if this data item is an image or not (could also be a surface or soething totally different)
+  //     mitk::Image* image = dynamic_cast<mitk::Image*>( data );
+  //     if (image)
+  //       {
+  //         std::stringstream message;
+  //         std::string name;
+  //         message << "Performing image processing for image ";
+  //         if (node->GetName(name))
+  //           {
+  //             // a property called "name" was found for this DataNode
+  //             message << "'" << name << "'";
+  //           }
+  //         message << ".";
+  //         MITK_INFO << message.str();
+
+  //         // actually do something here...
+
+  //       }
+  //   }
 }
