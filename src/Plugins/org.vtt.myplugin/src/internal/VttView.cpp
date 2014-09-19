@@ -19,12 +19,15 @@
 #include <berryISelectionService.h>
 #include <berryIWorkbenchWindow.h>
 
+//mitk
+#include <mitkCoreObjectFactory.h>
+
 // Qmitk
 #include "VttView.h"
 
 // Qt
 #include <QMessageBox>
-
+#include <QtGui>
 
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
@@ -41,11 +44,25 @@ void VttView::CreateQtPartControl( QWidget *parent )
   connect(m_Controls.comboBoxSteps, SIGNAL(currentIndexChanged(const int &)), this, SLOT(OnStepsChanged(const int &)));
   connect(m_Controls.ButtonPrev, SIGNAL(clicked()), this, SLOT(OnButtonPrev()));
   connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
+  connect(m_Controls.ButtonCTImport, SIGNAL(clicked()), this, SLOT(OnButtonCTImport()));
+
   m_Controls.comboBoxSteps->setCurrentIndex(0);
   this->OnStepsChanged(0);
   m_Controls.ButtonPrev->setIcon(QIcon(":/org.vtt.myplugin/go-previous.png"));
   m_Controls.ButtonNext->setIcon(QIcon(":/org.vtt.myplugin/go-next.png"));
-  m_Controls.ButtonImport->setIcon(QIcon(":/org.vtt.myplugin/Load_48.png"));
+  m_Controls.ButtonCTImport->setIcon(QIcon(":/org.vtt.myplugin/Load_48.png"));
+  m_Controls.ButtonCTOpen->setIcon(QIcon(":/org.vtt.myplugin/DataManager_48.png"));
+}
+
+void VttView::OpenFile(){
+
+}
+
+void VttView::OnButtonCTImport(){
+  QStringList fileNames =
+    QFileDialog::getOpenFileNames(NULL, "load CT image", "", mitk::CoreObjectFactory::GetInstance()->GetFileExtensions());
+  QString str = fileNames.join(",\n");
+  MITK_INFO<< str.toStdString();
 }
 
 void VttView::OnStepsChanged(const int &step){

@@ -50,6 +50,7 @@ class VttView : public QmitkAbstractView
     void OnStepsChanged(const int &step);
     void OnButtonPrev();
     void OnButtonNext();
+    void OnButtonCTImport();
 
   protected:
 
@@ -63,6 +64,7 @@ class VttView : public QmitkAbstractView
 
     Ui::VttViewControls m_Controls;
 
+    void OpenFile();
 };
 
 #endif // VttView_h

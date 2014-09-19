@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/org.vtt.myplugin">
+	<file>DataManager_48.png</file>
         <file>logo.png</file>
         <file>go-next.png</file>
         <file>go-previous.png</file>
