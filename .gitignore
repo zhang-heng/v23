@@ -11,6 +11,7 @@
 *.dylib
 *~
 /build/
+/.settings/
 
 # Qt-es
 
