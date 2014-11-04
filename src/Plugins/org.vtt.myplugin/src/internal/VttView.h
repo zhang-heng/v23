@@ -23,6 +23,10 @@
 
 #include "ui_VttViewControls.h"
 
+#include "XrayManage.h"
+#include "CtManage.h"
+#include "VNavigation.h"
+
 /**
  \brief VttView
 

@@ -24,14 +24,14 @@
 								</outputEntries>
 							</builder>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.588873195" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs">
-								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.2023220653" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths" valueType="libPaths"/>
-								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.1975171372" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles" valueType="libFiles"/>
+								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.2023220653" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths"/>
+								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.1975171372" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles"/>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1889917350" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.2024469673" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_GLIBCXX_STD=std"/>
 								</option>
-								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1641540748" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath"/>
+								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1641540748" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths"/>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.627190635" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1124735671" name="UPC" superClass="org.eclipse.cdt.build.core.settings.holder">
