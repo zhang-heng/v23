@@ -26,7 +26,7 @@
 
 // Qt
 #include <QtGui>
-
+//
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
 void VttView::SetFocus()
@@ -37,30 +37,21 @@ void VttView::SetFocus()
 void VttView::CreateQtPartControl(QWidget *parent)
 {
 	m_Controls.setupUi(parent);
+	CtManage = new CCtManage(m_Controls);
+	//init controls
+	m_Controls.comboBoxSteps->setCurrentIndex(0);
+	OnStepsChanged(0);
+
+	//icons
+	m_Controls.ButtonPrev->setIcon(QIcon(":/org.vtt.myplugin/go-previous.png"));
+	m_Controls.ButtonNext->setIcon(QIcon(":/org.vtt.myplugin/go-next.png"));
+
+	//slots:
 	connect(m_Controls.comboBoxSteps, SIGNAL(currentIndexChanged(const int &)), this, SLOT(OnStepsChanged(const int &)));
 	connect(m_Controls.ButtonPrev, SIGNAL(clicked()), this, SLOT(OnButtonPrev()));
 	connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
-	connect(m_Controls.ButtonCTImport, SIGNAL(clicked()), this, SLOT(OnButtonCTImport()));
-
-	m_Controls.comboBoxSteps->setCurrentIndex(0);
-	this->OnStepsChanged(0);
-	m_Controls.ButtonPrev->setIcon(QIcon(":/org.vtt.myplugin/go-previous.png"));
-	m_Controls.ButtonNext->setIcon(QIcon(":/org.vtt.myplugin/go-next.png"));
-	m_Controls.ButtonCTImport->setIcon(QIcon(":/org.vtt.myplugin/Load_48.png"));
-	m_Controls.ButtonCTOpen->setIcon(QIcon(":/org.vtt.myplugin/DataManager_48.png"));
-	m_Controls.CTListWidget->addItem(new QListWidgetItem(QIcon(":/org.vtt.myplugin/Load_48.png"), "123321"));
-}
-
-void VttView::OpenFile()
-{
-
-}
-
-void VttView::OnButtonCTImport()
-{
-	QStringList fileNames = QFileDialog::getOpenFileNames(NULL, "load CT image", "", mitk::CoreObjectFactory::GetInstance()->GetFileExtensions());
-	QString str = fileNames.join(",\n");
-	MITK_INFO<< str.toStdString();
+	connect(m_Controls.XrayListWidget, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this,
+			SLOT(OnXrayListCurrentItem(QListWidgetItem*,QListWidgetItem*)));
 }
 
 void VttView::OnStepsChanged(const int &step)

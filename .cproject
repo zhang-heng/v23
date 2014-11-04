@@ -18,7 +18,7 @@
 					<folderInfo id="0.1514813842." name="/" resourcePath="">
 						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.1472953478" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.1472953478.1386997873" name=""/>
-							<builder buildPath="${workspace_loc:/V23}/build" id="org.eclipse.cdt.build.core.settings.default.builder.1964204142" incrementalBuildTarget="all -j4" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder">
+							<builder buildPath="${workspace_loc:/v23}/build" id="org.eclipse.cdt.build.core.settings.default.builder.1964204142" incrementalBuildTarget="all -j4" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="build"/>
 								</outputEntries>
@@ -63,7 +63,7 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="V23.null.1210396316" name="V23"/>
+		<project id="v23.null.1210396316" name="v23"/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
@@ -74,7 +74,7 @@
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Default">
-			<resource resourceType="PROJECT" workspacePath="/V23"/>
+			<resource resourceType="PROJECT" workspacePath="/v23"/>
 			<resource resourceType="PROJECT" workspacePath="/MITK"/>
 		</configuration>
 	</storageModule>

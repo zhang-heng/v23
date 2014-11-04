@@ -35,23 +35,20 @@
  \sa QmitkAbstractView
  \ingroup ${plugin_target}_internal
  */
-class VttView: public QmitkAbstractView {
+class VttView: public QmitkAbstractView
+{
 	// this is needed for all Qt objects that should have a Qt meta-object
 	// (everything that derives from QObject and wants to have signal/slots)
 Q_OBJECT
 
 public:
-
 	static const std::string VIEW_ID;
 
 protected slots:
-
-	/// \brief Called when the user clicks the GUI button
 	void DoImageProcessing();
 	void OnStepsChanged(const int &step);
 	void OnButtonPrev();
 	void OnButtonNext();
-	void OnButtonCTImport();
 
 protected:
 
@@ -60,12 +57,11 @@ protected:
 	virtual void SetFocus();
 
 	/// \brief called by QmitkFunctionality when DataManager's selection has changed
-	virtual void OnSelectionChanged(berry::IWorkbenchPart::Pointer source,
-			const QList<mitk::DataNode::Pointer>& nodes);
+	virtual void OnSelectionChanged(berry::IWorkbenchPart::Pointer source, const QList<mitk::DataNode::Pointer>& nodes);
 
 	Ui::VttViewControls m_Controls;
 
-	void OpenFile();
+	CCtManage * CtManage;
 };
 
 #endif // VttView_h
