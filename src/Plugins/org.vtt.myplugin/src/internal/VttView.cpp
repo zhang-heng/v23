@@ -27,6 +27,8 @@
 // Qt
 #include <QtGui>
 //
+#include "CNavEditor.h"
+
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
 void VttView::SetFocus()
@@ -50,8 +52,6 @@ void VttView::CreateQtPartControl(QWidget *parent)
 	connect(m_Controls.comboBoxSteps, SIGNAL(currentIndexChanged(const int &)), this, SLOT(OnStepsChanged(const int &)));
 	connect(m_Controls.ButtonPrev, SIGNAL(clicked()), this, SLOT(OnButtonPrev()));
 	connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
-	connect(m_Controls.XrayListWidget, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this,
-			SLOT(OnXrayListCurrentItem(QListWidgetItem*,QListWidgetItem*)));
 }
 
 void VttView::OnStepsChanged(const int &step)

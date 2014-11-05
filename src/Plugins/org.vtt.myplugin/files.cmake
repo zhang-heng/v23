@@ -5,7 +5,7 @@ set(INTERNAL_CPP_FILES
   org_vtt_myplugin_Activator.cpp
   VttView.cpp 
   CtManage.cpp
-  
+  CNavEditor.cpp  
 )
 
 set(UI_FILES
@@ -16,6 +16,7 @@ set(MOC_H_FILES
   src/internal/org_vtt_myplugin_Activator.h
   src/internal/VttView.h 
   src/internal/CtManage.h 
+  src/internal/CNavEditor.h
 )
 
 # list of resource files which can be used by the plug-in
