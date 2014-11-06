@@ -43,6 +43,7 @@ Q_OBJECT
 
 public:
 	static const std::string VIEW_ID;
+	virtual ~VttView();
 
 protected slots:
 	void DoImageProcessing();
@@ -51,11 +52,8 @@ protected slots:
 	void OnButtonNext();
 
 protected:
-
 	virtual void CreateQtPartControl(QWidget *parent);
-
 	virtual void SetFocus();
-
 	/// \brief called by QmitkFunctionality when DataManager's selection has changed
 	virtual void OnSelectionChanged(berry::IWorkbenchPart::Pointer source, const QList<mitk::DataNode::Pointer>& nodes);
 

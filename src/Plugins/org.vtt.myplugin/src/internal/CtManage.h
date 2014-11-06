@@ -17,6 +17,7 @@ class CCtManage: public QmitkAbstractView
 {
 Q_OBJECT
 public:
+	static const std::string VIEW_ID;
 	CCtManage(Ui::VttViewControls controls);
 public slots:
 	void OnCTListCurrentItem(QListWidgetItem* current, QListWidgetItem* previous);

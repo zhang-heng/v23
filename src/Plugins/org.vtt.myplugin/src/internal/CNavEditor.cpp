@@ -18,12 +18,15 @@ CNavEditor::CNavEditor()
 
 void CNavEditor::SetFocus()
 {
+	MITK_INFO<<"CNavEditor::SetFocus";
 }
 
 void CNavEditor::CreateQtPartControl(QWidget *parent)
 {
+	MITK_INFO<<"CNavEditor::CreateQtPartControl";
 }
 
 void CNavEditor::OnPreferencesChanged(const berry::IBerryPreferences*)
 {
+	MITK_INFO<<"CNavEditor::OnPreferencesChanged";
 }

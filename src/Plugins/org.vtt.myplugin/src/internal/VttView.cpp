@@ -31,6 +31,11 @@
 
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
+VttView::~VttView()
+{
+	delete CtManage;
+}
+
 void VttView::SetFocus()
 {
 	//m_Controls.buttonPerformImageProcessing->setFocus();
@@ -54,37 +59,10 @@ void VttView::CreateQtPartControl(QWidget *parent)
 	connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
 }
 
-void VttView::OnStepsChanged(const int &step)
-{
-	if (step > 0)
-		m_Controls.ButtonPrev->setEnabled(true);
-	else
-		m_Controls.ButtonPrev->setEnabled(false);
-	if (step + 1 < m_Controls.comboBoxSteps->count())
-		m_Controls.ButtonNext->setEnabled(true);
-	else
-		m_Controls.ButtonNext->setEnabled(false);
-	m_Controls.stackedWidget->setCurrentIndex(step);
-}
-
-void VttView::OnButtonPrev()
-{
-	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
-	currentIndex--;
-	if (currentIndex >= 0)
-		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
-}
-
-void VttView::OnButtonNext()
-{
-	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
-	currentIndex++;
-	if (currentIndex < m_Controls.comboBoxSteps->count())
-		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
-}
-
+//响应data manager 选择变化
 void VttView::OnSelectionChanged(berry::IWorkbenchPart::Pointer /*source*/, const QList<mitk::DataNode::Pointer>& nodes)
 {
+	MITK_INFO<<"VttView::OnSelectionChanged";
 	// m_Controls.buttonPerformImageProcessing->setEnabled( true );
 	// return;
 
@@ -105,6 +83,7 @@ void VttView::OnSelectionChanged(berry::IWorkbenchPart::Pointer /*source*/, cons
 
 void VttView::DoImageProcessing()
 {
+	MITK_INFO<<"VttView::DoImageProcessing";
 	// mitk::IRenderWindowPart* renderWindow = this->GetRenderWindowPart();
 	// if (renderWindow == NULL){
 	//   renderWindow = this->GetRenderWindowPart(QmitkAbstractView::BRING_TO_FRONT | QmitkAbstractView::OPEN);
@@ -152,3 +131,33 @@ void VttView::DoImageProcessing()
 	//       }
 	//   }
 }
+
+void VttView::OnStepsChanged(const int &step)
+{
+	if (step > 0)
+		m_Controls.ButtonPrev->setEnabled(true);
+	else
+		m_Controls.ButtonPrev->setEnabled(false);
+	if (step + 1 < m_Controls.comboBoxSteps->count())
+		m_Controls.ButtonNext->setEnabled(true);
+	else
+		m_Controls.ButtonNext->setEnabled(false);
+	m_Controls.stackedWidget->setCurrentIndex(step);
+}
+
+void VttView::OnButtonPrev()
+{
+	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
+	currentIndex--;
+	if (currentIndex >= 0)
+		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
+}
+
+void VttView::OnButtonNext()
+{
+	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
+	currentIndex++;
+	if (currentIndex < m_Controls.comboBoxSteps->count())
+		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
+}
+
