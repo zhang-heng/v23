@@ -1,4 +1,4 @@
-#include "XrayManage.h"
+﻿#include "XrayManage.h"
 
 CXrayManage::CXrayManage() {
 

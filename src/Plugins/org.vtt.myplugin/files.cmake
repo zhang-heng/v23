@@ -5,7 +5,10 @@ set(INTERNAL_CPP_FILES
   org_vtt_myplugin_Activator.cpp
   VttView.cpp 
   CtManage.cpp
-  CNavEditor.cpp  
+  CNavEditor.cpp
+  FocusPoint.cpp
+  VNavigation.cpp
+  XrayManage.cpp
 )
 
 set(UI_FILES
@@ -17,6 +20,9 @@ set(MOC_H_FILES
   src/internal/VttView.h 
   src/internal/CtManage.h 
   src/internal/CNavEditor.h
+  src/internal/FocusPoint.h
+  src/internal/VNavigation.h
+  src/internal/XrayManage.h
 )
 
 # list of resource files which can be used by the plug-in

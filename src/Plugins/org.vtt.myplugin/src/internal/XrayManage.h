@@ -1,4 +1,4 @@
-#include "FocusPoint.h"
+﻿#include "FocusPoint.h"
 
 class CXrayManage {
 	CXrayManage();

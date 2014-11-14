@@ -1,4 +1,4 @@
-/*
+﻿/*
  * CNavEditor.h
  *
  *  Created on: 2014年11月5日

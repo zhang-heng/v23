@@ -28,6 +28,8 @@
 #include <QtGui>
 //
 #include "CNavEditor.h"
+#include <berryIWorkbenchPage.h>
+#include <mitkDataStorageEditorInput.h>
 
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
@@ -57,6 +59,7 @@ void VttView::CreateQtPartControl(QWidget *parent)
 	connect(m_Controls.comboBoxSteps, SIGNAL(currentIndexChanged(const int &)), this, SLOT(OnStepsChanged(const int &)));
 	connect(m_Controls.ButtonPrev, SIGNAL(clicked()), this, SLOT(OnButtonPrev()));
 	connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
+
 }
 
 //响应data manager 选择变化
@@ -154,7 +157,13 @@ void VttView::OnButtonPrev()
 }
 
 void VttView::OnButtonNext()
-{
+{	
+	berry::IWorkbenchPage::Pointer page = this->GetSite()->GetPage();
+	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(GetDataStorageReference()));
+	//page->OpenEditor(input,"org.mitk.editors.stdmultiwidget");
+	page->OpenEditor(input,"org.vtt.myeditor");
+	
+
 	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
 	currentIndex++;
 	if (currentIndex < m_Controls.comboBoxSteps->count())

@@ -1,4 +1,4 @@
-#include "CtManage.h"
+﻿#include "CtManage.h"
 
 // Qt
 #include <QtGui>
@@ -11,6 +11,7 @@
 #include <berryIWorkbenchWindow.h>
 #include <berryIWorkbenchPage.h>
 #include <berryIViewDescriptor.h>
+#include <mitkDataStorageEditorInput.h>
 
 const std::string CCtManage::VIEW_ID = "org.mitk.views.vttview";
 
@@ -38,6 +39,11 @@ void CCtManage::OnCTListCurrentItem(QListWidgetItem* current, QListWidgetItem*)
 
 void CCtManage::OnButtonCTOpen()
 {
+	//org.mitk.editors.stdmultiwidget
+	berry::IWorkbenchPage::Pointer page = this->GetSite()->GetPage();
+	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(GetDataStorageReference()));
+	page->OpenEditor(input,"org.mitk.editors.stdmultiwidget");
+
 	//this->GetRenderWindowPart(QmitkAbstractView::BRING_TO_FRONT | QmitkAbstractView::OPEN);
 
 //	berry::IWorkbench* currentWorkbench = berry::PlatformUI::GetWorkbench();
