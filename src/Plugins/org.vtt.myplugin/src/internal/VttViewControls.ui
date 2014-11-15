@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>358</width>
+    <width>338</width>
     <height>772</height>
    </rect>
   </property>
@@ -150,7 +150,7 @@
             <item>
              <widget class="QPushButton" name="pushButton">
               <property name="text">
-               <string>体裁剪</string>
+               <string>提取骨骼</string>
               </property>
              </widget>
             </item>

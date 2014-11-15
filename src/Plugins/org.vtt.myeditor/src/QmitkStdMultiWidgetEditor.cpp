@@ -36,12 +36,12 @@ See LICENSE.txt or http://www.mitk.org for details.
 
 #include <mbilogo.h>
 
-class QmitkStdMultiWidgetEditorPrivate
+class VttWidgetEditorPrivate
 {
 public:
 
-  QmitkStdMultiWidgetEditorPrivate();
-  ~QmitkStdMultiWidgetEditorPrivate();
+  VttWidgetEditorPrivate();
+  ~VttWidgetEditorPrivate();
 
   QmitkStdMultiWidget* m_StdMultiWidget;
   QmitkMouseModeSwitcher* m_MouseModeToolbar;
@@ -53,11 +53,11 @@ public:
   QHash<QString, QmitkRenderWindow*> m_RenderWindows;
 };
 
-struct QmitkStdMultiWidgetPartListener : public berry::IPartListener
+struct VttWidgetPartListener : public berry::IPartListener
 {
-  berryObjectMacro(QmitkStdMultiWidgetPartListener)
+  berryObjectMacro(VttWidgetPartListener)
 
-  QmitkStdMultiWidgetPartListener(QmitkStdMultiWidgetEditorPrivate* dd)
+  VttWidgetPartListener(VttWidgetEditorPrivate* dd)
     : d(dd)
   {}
 
@@ -68,9 +68,9 @@ struct QmitkStdMultiWidgetPartListener : public berry::IPartListener
 
   void PartClosed (berry::IWorkbenchPartReference::Pointer partRef)
   {
-    if (partRef->GetId() == QmitkStdMultiWidgetEditor::EDITOR_ID)
+    if (partRef->GetId() == VttWidgetEditor::EDITOR_ID)
     {
-      QmitkStdMultiWidgetEditor::Pointer stdMultiWidgetEditor = partRef->GetPart(false).Cast<QmitkStdMultiWidgetEditor>();
+      VttWidgetEditor::Pointer stdMultiWidgetEditor = partRef->GetPart(false).Cast<VttWidgetEditor>();
 
       if (d->m_StdMultiWidget == stdMultiWidgetEditor->GetStdMultiWidget())
       {
@@ -82,9 +82,9 @@ struct QmitkStdMultiWidgetPartListener : public berry::IPartListener
 
   void PartHidden (berry::IWorkbenchPartReference::Pointer partRef)
   {
-    if (partRef->GetId() == QmitkStdMultiWidgetEditor::EDITOR_ID)
+    if (partRef->GetId() == VttWidgetEditor::EDITOR_ID)
     {
-      QmitkStdMultiWidgetEditor::Pointer stdMultiWidgetEditor = partRef->GetPart(false).Cast<QmitkStdMultiWidgetEditor>();
+      VttWidgetEditor::Pointer stdMultiWidgetEditor = partRef->GetPart(false).Cast<VttWidgetEditor>();
 
       if (d->m_StdMultiWidget == stdMultiWidgetEditor->GetStdMultiWidget())
       {
@@ -96,9 +96,9 @@ struct QmitkStdMultiWidgetPartListener : public berry::IPartListener
 
   void PartVisible (berry::IWorkbenchPartReference::Pointer partRef)
   {
-    if (partRef->GetId() == QmitkStdMultiWidgetEditor::EDITOR_ID)
+    if (partRef->GetId() == VttWidgetEditor::EDITOR_ID)
     {
-      QmitkStdMultiWidgetEditor::Pointer stdMultiWidgetEditor = partRef->GetPart(false).Cast<QmitkStdMultiWidgetEditor>();
+      VttWidgetEditor::Pointer stdMultiWidgetEditor = partRef->GetPart(false).Cast<VttWidgetEditor>();
 
       if (d->m_StdMultiWidget == stdMultiWidgetEditor->GetStdMultiWidget())
       {
@@ -110,48 +110,48 @@ struct QmitkStdMultiWidgetPartListener : public berry::IPartListener
 
 private:
 
-  QmitkStdMultiWidgetEditorPrivate* const d;
+  VttWidgetEditorPrivate* const d;
 };
 
-QmitkStdMultiWidgetEditorPrivate::QmitkStdMultiWidgetEditorPrivate()
+VttWidgetEditorPrivate::VttWidgetEditorPrivate()
   : m_StdMultiWidget(0), m_MouseModeToolbar(0)
   , m_MenuWidgetsEnabled(false)
-  , m_PartListener(new QmitkStdMultiWidgetPartListener(this))
+  , m_PartListener(new VttWidgetPartListener(this))
 {}
 
-QmitkStdMultiWidgetEditorPrivate::~QmitkStdMultiWidgetEditorPrivate()
+VttWidgetEditorPrivate::~VttWidgetEditorPrivate()
 {
 }
 
-const std::string QmitkStdMultiWidgetEditor::EDITOR_ID = "org.vtt.myeditor";
+const std::string VttWidgetEditor::EDITOR_ID = "org.vtt.myeditor";
 
-QmitkStdMultiWidgetEditor::QmitkStdMultiWidgetEditor()
-  : d(new QmitkStdMultiWidgetEditorPrivate)
+VttWidgetEditor::VttWidgetEditor()
+  : d(new VttWidgetEditorPrivate)
 {
 }
 
-QmitkStdMultiWidgetEditor::~QmitkStdMultiWidgetEditor()
+VttWidgetEditor::~VttWidgetEditor()
 {
   this->GetSite()->GetPage()->RemovePartListener(d->m_PartListener);
 }
 
-QmitkStdMultiWidget* QmitkStdMultiWidgetEditor::GetStdMultiWidget()
+QmitkStdMultiWidget* VttWidgetEditor::GetStdMultiWidget()
 {
   return d->m_StdMultiWidget;
 }
 
-QmitkRenderWindow *QmitkStdMultiWidgetEditor::GetActiveQmitkRenderWindow() const
+QmitkRenderWindow *VttWidgetEditor::GetActiveQmitkRenderWindow() const
 {
   if (d->m_StdMultiWidget) return d->m_StdMultiWidget->GetRenderWindow1();
   return 0;
 }
 
-QHash<QString, QmitkRenderWindow *> QmitkStdMultiWidgetEditor::GetQmitkRenderWindows() const
+QHash<QString, QmitkRenderWindow *> VttWidgetEditor::GetQmitkRenderWindows() const
 {
   return d->m_RenderWindows;
 }
 
-QmitkRenderWindow *QmitkStdMultiWidgetEditor::GetQmitkRenderWindow(const QString &id) const
+QmitkRenderWindow *VttWidgetEditor::GetQmitkRenderWindow(const QString &id) const
 {
   if (d->m_RenderWindows.contains(id))
     return d->m_RenderWindows[id];
@@ -159,17 +159,17 @@ QmitkRenderWindow *QmitkStdMultiWidgetEditor::GetQmitkRenderWindow(const QString
   return 0;
 }
 
-mitk::Point3D QmitkStdMultiWidgetEditor::GetSelectedPosition(const QString & /*id*/) const
+mitk::Point3D VttWidgetEditor::GetSelectedPosition(const QString & /*id*/) const
 {
   return d->m_StdMultiWidget->GetCrossPosition();
 }
 
-void QmitkStdMultiWidgetEditor::SetSelectedPosition(const mitk::Point3D &pos, const QString &/*id*/)
+void VttWidgetEditor::SetSelectedPosition(const mitk::Point3D &pos, const QString &/*id*/)
 {
   d->m_StdMultiWidget->MoveCrossToPosition(pos);
 }
 
-void QmitkStdMultiWidgetEditor::EnableDecorations(bool enable, const QStringList &decorations)
+void VttWidgetEditor::EnableDecorations(bool enable, const QStringList &decorations)
 {
   if (decorations.isEmpty() || decorations.contains(DECORATION_BORDER))
   {
@@ -192,7 +192,7 @@ void QmitkStdMultiWidgetEditor::EnableDecorations(bool enable, const QStringList
   }
 }
 
-bool QmitkStdMultiWidgetEditor::IsDecorationEnabled(const QString &decoration) const
+bool VttWidgetEditor::IsDecorationEnabled(const QString &decoration) const
 {
   if (decoration == DECORATION_BORDER)
   {
@@ -213,29 +213,29 @@ bool QmitkStdMultiWidgetEditor::IsDecorationEnabled(const QString &decoration) c
   return false;
 }
 
-QStringList QmitkStdMultiWidgetEditor::GetDecorations() const
+QStringList VttWidgetEditor::GetDecorations() const
 {
   QStringList decorations;
   decorations << DECORATION_BORDER << DECORATION_LOGO << DECORATION_MENU << DECORATION_BACKGROUND;
   return decorations;
 }
 
-mitk::SlicesRotator* QmitkStdMultiWidgetEditor::GetSlicesRotator() const
+mitk::SlicesRotator* VttWidgetEditor::GetSlicesRotator() const
 {
   return d->m_StdMultiWidget->GetSlicesRotator();
 }
 
-mitk::SlicesSwiveller* QmitkStdMultiWidgetEditor::GetSlicesSwiveller() const
+mitk::SlicesSwiveller* VttWidgetEditor::GetSlicesSwiveller() const
 {
   return d->m_StdMultiWidget->GetSlicesSwiveller();
 }
 
-void QmitkStdMultiWidgetEditor::EnableSlicingPlanes(bool enable)
+void VttWidgetEditor::EnableSlicingPlanes(bool enable)
 {
   d->m_StdMultiWidget->SetWidgetPlanesVisibility(enable);
 }
 
-bool QmitkStdMultiWidgetEditor::IsSlicingPlanesEnabled() const
+bool VttWidgetEditor::IsSlicingPlanesEnabled() const
 {
   mitk::DataNode::Pointer node = this->d->m_StdMultiWidget->GetWidgetPlane1();
   if (node.IsNotNull())
@@ -250,18 +250,18 @@ bool QmitkStdMultiWidgetEditor::IsSlicingPlanesEnabled() const
   }
 }
 
-void QmitkStdMultiWidgetEditor::EnableLinkedNavigation(bool enable)
+void VttWidgetEditor::EnableLinkedNavigation(bool enable)
 {
   enable ? d->m_StdMultiWidget->EnableNavigationControllerEventListening()
          : d->m_StdMultiWidget->DisableNavigationControllerEventListening();
 }
 
-bool QmitkStdMultiWidgetEditor::IsLinkedNavigationEnabled() const
+bool VttWidgetEditor::IsLinkedNavigationEnabled() const
 {
   return d->m_StdMultiWidget->IsCrosshairNavigationEnabled();
 }
 
-void QmitkStdMultiWidgetEditor::CreateQtPartControl(QWidget* parent)
+void VttWidgetEditor::CreateQtPartControl(QWidget* parent)
 {
   if (d->m_StdMultiWidget == 0)
   {
@@ -325,7 +325,7 @@ void QmitkStdMultiWidgetEditor::CreateQtPartControl(QWidget* parent)
   }
 }
 
-void QmitkStdMultiWidgetEditor::OnPreferencesChanged(const berry::IBerryPreferences* prefs)
+void VttWidgetEditor::OnPreferencesChanged(const berry::IBerryPreferences* prefs)
 {
   // Enable change of logo. If no DepartmentLogo was set explicitly, MBILogo is used.
   // Set new department logo by prefs->Set("DepartmentLogo", "PathToImage");
@@ -429,13 +429,13 @@ void QmitkStdMultiWidgetEditor::OnPreferencesChanged(const berry::IBerryPreferen
   d->m_StdMultiWidget->GetMouseModeSwitcher()->SetInteractionScheme( newMode ? mitk::MouseModeSwitcher::PACS : mitk::MouseModeSwitcher::MITK );
 }
 
-void QmitkStdMultiWidgetEditor::SetFocus()
+void VttWidgetEditor::SetFocus()
 {
   if (d->m_StdMultiWidget != 0)
     d->m_StdMultiWidget->setFocus();
 }
 
-void QmitkStdMultiWidgetEditor::RequestActivateMenuWidget(bool on)
+void VttWidgetEditor::RequestActivateMenuWidget(bool on)
 {
   if (d->m_StdMultiWidget)
   {

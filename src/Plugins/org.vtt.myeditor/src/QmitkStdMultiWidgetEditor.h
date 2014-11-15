@@ -25,24 +25,24 @@ See LICENSE.txt or http://www.mitk.org for details.
 
 class QmitkStdMultiWidget;
 class QmitkMouseModeSwitcher;
-class QmitkStdMultiWidgetEditorPrivate;
+class VttWidgetEditorPrivate;
 
 /**
  * \ingroup org_mitk_gui_qt_stdmultiwidgeteditor
  */
-class ORG_MITK_GUI_QT_STDMULTIWIDGETEDITOR QmitkStdMultiWidgetEditor
+class ORG_MITK_GUI_QT_STDMULTIWIDGETEDITOR VttWidgetEditor
     : public QmitkAbstractRenderEditor, public mitk::ILinkedRenderWindowPart
 {
   Q_OBJECT
 
 public:
 
-  berryObjectMacro(QmitkStdMultiWidgetEditor);
+  berryObjectMacro(VttWidgetEditor);
 
   static const std::string EDITOR_ID;
 
-  QmitkStdMultiWidgetEditor();
-  ~QmitkStdMultiWidgetEditor();
+  VttWidgetEditor();
+  ~VttWidgetEditor();
 
   QmitkStdMultiWidget* GetStdMultiWidget();
 
@@ -113,7 +113,7 @@ protected:
 
 private:
 
-  const QScopedPointer<QmitkStdMultiWidgetEditorPrivate> d;
+  const QScopedPointer<VttWidgetEditorPrivate> d;
 
 };
 
