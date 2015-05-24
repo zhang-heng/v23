@@ -42,7 +42,7 @@ void QmitkStdMultiWidgetEditorPreferencePage::CreateQtControl(QWidget* parent)
     = berry::Platform::GetServiceRegistry()
     .GetServiceById<berry::IPreferencesService>(berry::IPreferencesService::ID);
 
-  m_StdMultiWidgetEditorPreferencesNode = prefService->GetSystemPreferences()->Node(QmitkStdMultiWidgetEditor::EDITOR_ID);
+  m_StdMultiWidgetEditorPreferencesNode = prefService->GetSystemPreferences()->Node(VttWidgetEditor::EDITOR_ID);
 
   m_MainControl = new QWidget(parent);
   m_EnableFlexibleZooming = new QCheckBox;

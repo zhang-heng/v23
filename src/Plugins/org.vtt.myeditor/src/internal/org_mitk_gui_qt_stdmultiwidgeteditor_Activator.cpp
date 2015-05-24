@@ -25,7 +25,7 @@ org_mitk_gui_qt_stdmultiwidgeteditor_Activator::start(ctkPluginContext* context)
 {
   Q_UNUSED(context)
 
-  BERRY_REGISTER_EXTENSION_CLASS(QmitkStdMultiWidgetEditor, context)
+  BERRY_REGISTER_EXTENSION_CLASS(VttWidgetEditor, context)
   BERRY_REGISTER_EXTENSION_CLASS(QmitkStdMultiWidgetEditorPreferencePage, context)
 }
 
