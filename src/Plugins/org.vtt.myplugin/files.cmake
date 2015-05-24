@@ -2,6 +2,7 @@ set(SRC_CPP_FILES
 )
 
 set(INTERNAL_CPP_FILES
+  DigitallyReconstructedRadiograph.cpp
   org_vtt_myplugin_Activator.cpp
   VttView.cpp 
   CtManage.cpp
@@ -16,6 +17,7 @@ set(UI_FILES
 )
 
 set(MOC_H_FILES
+  src/internal/DigitallyReconstructedRadiograph.h
   src/internal/org_vtt_myplugin_Activator.h
   src/internal/VttView.h 
   src/internal/CtManage.h 
