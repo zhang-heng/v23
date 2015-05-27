@@ -159,7 +159,7 @@ void VttView::OnButtonPrev()
 void VttView::OnButtonNext()
 {	
 	berry::IWorkbenchPage::Pointer page = this->GetSite()->GetPage();
-	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(GetDataStorageReference()));
+	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(this->GetDataStorageReference()));
 	//page->OpenEditor(input,"org.mitk.editors.stdmultiwidget");
 	page->OpenEditor(input,"org.vtt.myeditor");
 	

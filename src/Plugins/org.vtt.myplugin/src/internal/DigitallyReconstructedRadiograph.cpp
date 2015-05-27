@@ -10,14 +10,16 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRayCastInterpolateImageFunction.h"
 
+#include <mitkDataNodeFactory.h>
+
 CDigitallyReconstructedRadiograph::CDigitallyReconstructedRadiograph
 	(float sx, float sy,                      //输出的像素间距
 	int dx = 501, int dy = 501,               //输出尺寸
-	float sid = 400,                          //射线源距离
+	float sid = 400,                          //射线源距离 1000?
 	float tx = 0, float ty = 0, float tz = 0, //相机的变换参数
 	float rx = 0, float ry = 0, float rz = 0, //轴的变换
 	float cx = 0, float cy = 0, float cz = 0, //相对物体的旋转中心
-	float o2Dx = 0, float o2Dy = 0,           //默认的2d投影位置
+	float o2Dx = 0, float o2Dy = 0,           //默认的2d投影位置 512 512
 	float threshold = 0)                      //阈值
 {
 	char *input_name = NULL;
@@ -36,9 +38,16 @@ CDigitallyReconstructedRadiograph::CDigitallyReconstructedRadiograph
 		typedef itk::ImageFileReader< InputImageType >  ReaderType;
 		ReaderType::Pointer reader = ReaderType::New();
 		reader->SetFileName( input_name );
+
+		mitk::DataNodeSource::OutputType::Pointer mitkReaderType;
+		mitk::DataNodeFactory::Pointer mitkReader = mitk::DataNodeFactory::New();
 		try
 		{
 			reader->Update();
+
+			mitkReader->SetFileName(input_name);
+			mitkReader->Update();
+			mitkReaderType = mitkReader->GetOutput();
 		}
 		catch( itk::ExceptionObject & err )
 		{
@@ -48,70 +57,70 @@ CDigitallyReconstructedRadiograph::CDigitallyReconstructedRadiograph
 		}
 		image = reader->GetOutput();
 	}
-	else
-	{   // No input image specified so create a cube
-		image = InputImageType::New();
-		InputImageType::SpacingType spacing;
-		spacing[0] = 3.;
-		spacing[1] = 3.;
-		spacing[2] = 3.;
-		image->SetSpacing( spacing );
-		InputImageType::PointType origin;
-		origin[0] = 0.;
-		origin[1] = 0.;
-		origin[2] = 0.;
-		image->SetOrigin( origin );
-		InputImageType::IndexType start;
-		start[0] =   0;  // first index on X
-		start[1] =   0;  // first index on Y
-		start[2] =   0;  // first index on Z
-		InputImageType::SizeType  size;
-		size[0]  = 61;  // size along X
-		size[1]  = 61;  // size along Y
-		size[2]  = 61;  // size along Z
-		InputImageType::RegionType region;
-		region.SetSize( size );
-		region.SetIndex( start );
-		image->SetRegions( region );
-		image->Allocate();
-		image->FillBuffer(0);
-		image->Update();
-		typedef itk::ImageRegionIteratorWithIndex< InputImageType > IteratorType;
-		IteratorType iterate( image, image->GetLargestPossibleRegion() );
-		while ( ! iterate.IsAtEnd() )
-		{
-			InputImageType::IndexType idx = iterate.GetIndex();
-			if (   (idx[0] >= 6) && (idx[0] <= 54)
-				&& (idx[1] >= 6) && (idx[1] <= 54)
-				&& (idx[2] >= 6) && (idx[2] <= 54)
-				&& (   (   ((idx[0] <= 11) || (idx[0] >= 49))
-				&& ((idx[1] <= 11) || (idx[1] >= 49)))
-				|| (   ((idx[0] <= 11) || (idx[0] >= 49))
-				&& ((idx[2] <= 11) || (idx[2] >= 49)))
-				|| (   ((idx[1] <= 11) || (idx[1] >= 49))
-				&& ((idx[2] <= 11) || (idx[2] >= 49))) ))
-			{
-				iterate.Set(10);
-			}
-			else if (   (idx[0] >= 18) && (idx[0] <= 42)
-				&& (idx[1] >= 18) && (idx[1] <= 42)
-				&& (idx[2] >= 18) && (idx[2] <= 42)
-				&& (   (   ((idx[0] <= 23) || (idx[0] >= 37))
-				&& ((idx[1] <= 23) || (idx[1] >= 37)))
-				|| (   ((idx[0] <= 23) || (idx[0] >= 37))
-				&& ((idx[2] <= 23) || (idx[2] >= 37)))
-				|| (   ((idx[1] <= 23) || (idx[1] >= 37))
-				&& ((idx[2] <= 23) || (idx[2] >= 37))) ))
-			{
-				iterate.Set(60);
-			}
-			else if ((idx[0] == 30) && (idx[1] == 30) && (idx[2] == 30))
-			{
-				iterate.Set(100);
-			}
-			++iterate;
-		}
-	}
+	//else
+	//{   // No input image specified so create a cube
+	//	image = InputImageType::New();
+	//	InputImageType::SpacingType spacing;
+	//	spacing[0] = 3.;
+	//	spacing[1] = 3.;
+	//	spacing[2] = 3.;
+	//	image->SetSpacing( spacing );
+	//	InputImageType::PointType origin;
+	//	origin[0] = 0.;
+	//	origin[1] = 0.;
+	//	origin[2] = 0.;
+	//	image->SetOrigin( origin );
+	//	InputImageType::IndexType start;
+	//	start[0] =   0;  // first index on X
+	//	start[1] =   0;  // first index on Y
+	//	start[2] =   0;  // first index on Z
+	//	InputImageType::SizeType  size;
+	//	size[0]  = 61;  // size along X
+	//	size[1]  = 61;  // size along Y
+	//	size[2]  = 61;  // size along Z
+	//	InputImageType::RegionType region;
+	//	region.SetSize( size );
+	//	region.SetIndex( start );
+	//	image->SetRegions( region );
+	//	image->Allocate();
+	//	image->FillBuffer(0);
+	//	image->Update();
+	//	typedef itk::ImageRegionIteratorWithIndex< InputImageType > IteratorType;
+	//	IteratorType iterate( image, image->GetLargestPossibleRegion() );
+	//	while ( ! iterate.IsAtEnd() )
+	//	{
+	//		InputImageType::IndexType idx = iterate.GetIndex();
+	//		if (   (idx[0] >= 6) && (idx[0] <= 54)
+	//			&& (idx[1] >= 6) && (idx[1] <= 54)
+	//			&& (idx[2] >= 6) && (idx[2] <= 54)
+	//			&& (   (   ((idx[0] <= 11) || (idx[0] >= 49))
+	//			&& ((idx[1] <= 11) || (idx[1] >= 49)))
+	//			|| (   ((idx[0] <= 11) || (idx[0] >= 49))
+	//			&& ((idx[2] <= 11) || (idx[2] >= 49)))
+	//			|| (   ((idx[1] <= 11) || (idx[1] >= 49))
+	//			&& ((idx[2] <= 11) || (idx[2] >= 49))) ))
+	//		{
+	//			iterate.Set(10);
+	//		}
+	//		else if (   (idx[0] >= 18) && (idx[0] <= 42)
+	//			&& (idx[1] >= 18) && (idx[1] <= 42)
+	//			&& (idx[2] >= 18) && (idx[2] <= 42)
+	//			&& (   (   ((idx[0] <= 23) || (idx[0] >= 37))
+	//			&& ((idx[1] <= 23) || (idx[1] >= 37)))
+	//			|| (   ((idx[0] <= 23) || (idx[0] >= 37))
+	//			&& ((idx[2] <= 23) || (idx[2] >= 37)))
+	//			|| (   ((idx[1] <= 23) || (idx[1] >= 37))
+	//			&& ((idx[2] <= 23) || (idx[2] >= 37))) ))
+	//		{
+	//			iterate.Set(60);
+	//		}
+	//		else if ((idx[0] == 30) && (idx[1] == 30) && (idx[2] == 30))
+	//		{
+	//			iterate.Set(100);
+	//		}
+	//		++iterate;
+	//	}
+	//}
 
 #ifdef DEBUG
 

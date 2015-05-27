@@ -16,7 +16,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 
 #include "org_mitk_gui_qt_stdmultiwidgeteditor_Activator.h"
 
-#include "../QmitkStdMultiWidgetEditor.h"
+#include "../VttWidgetEditor.h"
 #include "QmitkStdMultiWidgetEditorPreferencePage.h"
 
 

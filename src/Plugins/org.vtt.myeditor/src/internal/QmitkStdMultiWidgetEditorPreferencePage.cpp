@@ -15,7 +15,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 ===================================================================*/
 
 #include "QmitkStdMultiWidgetEditorPreferencePage.h"
-#include "QmitkStdMultiWidgetEditor.h"
+#include "VttWidgetEditor.h"
 
 #include <QLabel>
 #include <QPushButton>

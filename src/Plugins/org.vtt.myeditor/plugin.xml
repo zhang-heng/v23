@@ -4,9 +4,9 @@
   <extension point="org.blueberry.ui.editors">
     <editor
       id="org.vtt.myeditor"
-      name="Display"
+      name="VttEditor"
       extensions="mitk"
-      class="QmitkStdMultiWidgetEditor">
+      class="VttWidgetEditor">
     </editor>
   </extension>
 

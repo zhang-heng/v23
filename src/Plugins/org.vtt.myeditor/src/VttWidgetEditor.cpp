@@ -14,7 +14,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 
 ===================================================================*/
 
-#include "QmitkStdMultiWidgetEditor.h"
+#include "VttWidgetEditor.h"
 
 #include <berryUIException.h>
 #include <berryIWorkbenchPage.h>
@@ -128,6 +128,7 @@ const std::string VttWidgetEditor::EDITOR_ID = "org.vtt.myeditor";
 VttWidgetEditor::VttWidgetEditor()
   : d(new VttWidgetEditorPrivate)
 {
+	cout<<"creat VttWidgetEditor"<<endl;
 }
 
 VttWidgetEditor::~VttWidgetEditor()
