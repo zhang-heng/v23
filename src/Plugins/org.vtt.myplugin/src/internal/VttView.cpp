@@ -21,8 +21,6 @@
 */
 
 
-
-
 // Blueberry
 #include <berryISelectionService.h>
 #include <berryIWorkbenchWindow.h>
@@ -40,6 +38,7 @@
 //
 #include "CNavEditor.h"
 #include "DigitallyReconstructedRadiograph.h"
+#include "DrrTest.h"
 
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
@@ -50,6 +49,7 @@ VttView::~VttView()
 
 void VttView::SetFocus()
 {
+	OpenVttEditor(false);
 	//m_Controls.buttonPerformImageProcessing->setFocus();
 }
 
@@ -147,6 +147,34 @@ void VttView::DoImageProcessing()
 	//   }
 }
 
+void VttView::OnButtonPrev()
+{
+	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
+	currentIndex--;
+	if (currentIndex >= 0)
+		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
+}
+
+void VttView::OnButtonNext()
+{	
+	auto dlg = new CDrrTest();
+	dlg->show();
+
+	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
+	currentIndex++;
+	if (currentIndex < m_Controls.comboBoxSteps->count())
+		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
+}
+
+#pragma region something
+void VttView::OpenVttEditor(bool clear)
+{
+	berry::IWorkbenchPage::Pointer page = this->GetSite()->GetPage();
+	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(this->GetDataStorageReference()));
+	if(clear) page->CloseAllEditors(false);
+	page->OpenEditor(input,"org.vtt.myeditor");
+}
+
 void VttView::OnStepsChanged(const int &step)
 {
 	if (step > 0)
@@ -160,28 +188,4 @@ void VttView::OnStepsChanged(const int &step)
 	m_Controls.stackedWidget->setCurrentIndex(step);
 }
 
-void VttView::OnButtonPrev()
-{
-	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
-	currentIndex--;
-	if (currentIndex >= 0)
-		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
-}
-
-void VttView::OnButtonNext()
-{	
-	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
-	currentIndex++;
-	if (currentIndex < m_Controls.comboBoxSteps->count())
-		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
-}
-
-#pragma region something
-void VttView::OpenVttEditor()
-{
-	berry::IWorkbenchPage::Pointer page = this->GetSite()->GetPage();
-	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(this->GetDataStorageReference()));
-	page->CloseAllEditors(false);
-	page->OpenEditor(input,"org.vtt.myeditor");
-}
 #pragma endregion

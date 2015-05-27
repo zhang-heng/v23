@@ -50,7 +50,7 @@ protected slots:
 	void OnStepsChanged(const int &step);
 	void OnButtonPrev();
 	void OnButtonNext();
-	void OpenVttEditor();
+	void OpenVttEditor(bool clear = true);
 protected:
 	virtual void CreateQtPartControl(QWidget *parent);
 	virtual void SetFocus();
@@ -60,6 +60,7 @@ protected:
 	Ui::VttViewControls m_Controls;
 
 	CCtManage * CtManage;
+private:
 };
 
 #endif // VttView_h

@@ -30,7 +30,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+      <widget class="QDoubleSpinBox" name="sx"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_2">
@@ -40,7 +40,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+      <widget class="QDoubleSpinBox" name="sy"/>
      </item>
     </layout>
    </item>
@@ -54,7 +54,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinBox"/>
+      <widget class="QSpinBox" name="dx"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_4">
@@ -64,7 +64,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinBox_2"/>
+      <widget class="QSpinBox" name="dy"/>
      </item>
     </layout>
    </item>
@@ -78,7 +78,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+      <widget class="QDoubleSpinBox" name="sid"/>
      </item>
     </layout>
    </item>
@@ -92,7 +92,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_6"/>
+      <widget class="QDoubleSpinBox" name="tx"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_8">
@@ -102,7 +102,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_8"/>
+      <widget class="QDoubleSpinBox" name="ty"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_7">
@@ -112,7 +112,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_7"/>
+      <widget class="QDoubleSpinBox" name="tz"/>
      </item>
     </layout>
    </item>
@@ -126,7 +126,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_9"/>
+      <widget class="QDoubleSpinBox" name="rx"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_10">
@@ -136,7 +136,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_10"/>
+      <widget class="QDoubleSpinBox" name="ry"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_11">
@@ -146,7 +146,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_11"/>
+      <widget class="QDoubleSpinBox" name="rz"/>
      </item>
     </layout>
    </item>
@@ -160,7 +160,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_12"/>
+      <widget class="QDoubleSpinBox" name="cx"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_13">
@@ -170,7 +170,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_13"/>
+      <widget class="QDoubleSpinBox" name="cy"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_14">
@@ -180,7 +180,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_14"/>
+      <widget class="QDoubleSpinBox" name="cz"/>
      </item>
     </layout>
    </item>
@@ -194,7 +194,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_15"/>
+      <widget class="QDoubleSpinBox" name="o2Dx"/>
      </item>
      <item alignment="Qt::AlignRight">
       <widget class="QLabel" name="label_16">
@@ -204,7 +204,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_16"/>
+      <widget class="QDoubleSpinBox" name="o2Dy"/>
      </item>
     </layout>
    </item>
@@ -218,7 +218,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_17"/>
+      <widget class="QDoubleSpinBox" name="threshold"/>
      </item>
     </layout>
    </item>
