@@ -26,6 +26,7 @@
 #include "XrayManage.h"
 #include "CtManage.h"
 #include "VNavigation.h"
+#include "DrrTest.h"
 
 /**
  \brief VttView
@@ -42,6 +43,7 @@ class VttView: public QmitkAbstractView
 Q_OBJECT
 
 public:
+	VttView();
 	static const std::string VIEW_ID;
 	virtual ~VttView();
 
@@ -56,11 +58,13 @@ protected:
 	virtual void SetFocus();
 	/// \brief called by QmitkFunctionality when DataManager's selection has changed
 	virtual void OnSelectionChanged(berry::IWorkbenchPart::Pointer source, const QList<mitk::DataNode::Pointer>& nodes);
-
 	Ui::VttViewControls m_Controls;
-
 	CCtManage * CtManage;
 private:
+	//-----------test-----------
+	CDrrTest * m_DrrTest;
+	void TestDrrDlg();
+	//-----------test-----------
 };
 
 #endif // VttView_h

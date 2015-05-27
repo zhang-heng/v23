@@ -133,3 +133,13 @@ void CDrrTest::On_threshold(double i)
 {
 	cout<<i<<endl;
 }
+ 
+void CDrrTest::setCloser(std::function<void ()> f)
+{ 
+	m_closer = f;
+} 
+
+void CDrrTest::closeEvent( QCloseEvent * ce )
+{
+	m_closer();
+}

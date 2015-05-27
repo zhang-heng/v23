@@ -1,25 +1,24 @@
 /*===================================================================
 
- The Medical Imaging Interaction Toolkit (MITK)
+The Medical Imaging Interaction Toolkit (MITK)
 
- Copyright (c) German Cancer Research Center,
- Division of Medical and Biological Informatics.
- All rights reserved.
+Copyright (c) German Cancer Research Center,
+Division of Medical and Biological Informatics.
+All rights reserved.
 
- This software is distributed WITHOUT ANY WARRANTY; without
- even the implied warranty of MERCHANTABILITY or FITNESS FOR
- A PARTICULAR PURPOSE.
+This software is distributed WITHOUT ANY WARRANTY; without
+even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE.
 
- See LICENSE.txt or http://www.mitk.org for details.
+See LICENSE.txt or http://www.mitk.org for details.
 
- ===================================================================*/
+===================================================================*/
 
 /*
 1.分别创建控制插件、视图插件
 2.实现生成DRR
 3.
 */
-
 
 // Blueberry
 #include <berryISelectionService.h>
@@ -38,9 +37,14 @@
 //
 #include "CNavEditor.h"
 #include "DigitallyReconstructedRadiograph.h"
-#include "DrrTest.h"
 
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
+
+VttView::VttView()
+	:m_DrrTest(nullptr)
+{
+
+}
 
 VttView::~VttView()
 {
@@ -157,9 +161,7 @@ void VttView::OnButtonPrev()
 
 void VttView::OnButtonNext()
 {	
-	auto dlg = new CDrrTest();
-	dlg->show();
-
+	TestDrrDlg();
 	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
 	currentIndex++;
 	if (currentIndex < m_Controls.comboBoxSteps->count())
@@ -186,6 +188,20 @@ void VttView::OnStepsChanged(const int &step)
 	else
 		m_Controls.ButtonNext->setEnabled(false);
 	m_Controls.stackedWidget->setCurrentIndex(step);
+}
+
+void VttView::TestDrrDlg()
+{
+	if (!m_DrrTest)
+	{
+		m_DrrTest = new CDrrTest();
+		m_DrrTest->setCloser([&]()
+		{
+			m_DrrTest = nullptr;
+		});
+		m_DrrTest->setWindowFlags(Qt::WindowStaysOnTopHint);
+		m_DrrTest->show();
+	}
 }
 
 #pragma endregion

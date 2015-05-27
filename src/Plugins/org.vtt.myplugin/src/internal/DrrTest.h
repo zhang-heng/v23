@@ -1,3 +1,6 @@
+#ifndef DrrTest_h
+#define DrrTest_h
+
 #include <berryISelectionListener.h>
 #include <QmitkAbstractView.h>
 #include "ui_DrrTest.h"
@@ -10,6 +13,9 @@ class CDrrTest: public QDialog
 public:
 	CDrrTest(QWidget *parent = 0);
 	static const std::string VIEW_ID;
+	void setCloser(std::function<void ()> f);
+private:
+	std::function<void ()> m_closer;
 protected slots:
 	void On_sx(double i);
 	void On_sy(double i);
@@ -29,5 +35,8 @@ protected slots:
 	void On_o2Dy(double i);
 	void On_threshold(double i);
 protected:
+	void closeEvent(QCloseEvent * ce);
 	Ui::DrrTest m_ui;
 };
+
+#endif // DrrTest_h
