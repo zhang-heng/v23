@@ -14,12 +14,23 @@
 
  ===================================================================*/
 
+/*
+1.分别创建控制插件、视图插件
+2.实现生成DRR
+3.
+*/
+
+
+
+
 // Blueberry
 #include <berryISelectionService.h>
 #include <berryIWorkbenchWindow.h>
 
 //mitk
+#include <berryIWorkbenchPage.h>
 #include <mitkCoreObjectFactory.h>
+#include <mitkDataStorageEditorInput.h>
 
 // Qmitk
 #include "VttView.h"
@@ -28,8 +39,7 @@
 #include <QtGui>
 //
 #include "CNavEditor.h"
-#include <berryIWorkbenchPage.h>
-#include <mitkDataStorageEditorInput.h>
+#include "DigitallyReconstructedRadiograph.h"
 
 const std::string VttView::VIEW_ID = "org.mitk.views.vttview";
 
@@ -45,8 +55,11 @@ void VttView::SetFocus()
 
 void VttView::CreateQtPartControl(QWidget *parent)
 {
+	OpenVttEditor();
+
 	m_Controls.setupUi(parent);
 	CtManage = new CCtManage(m_Controls);
+
 	//init controls
 	m_Controls.comboBoxSteps->setCurrentIndex(0);
 	OnStepsChanged(0);
@@ -59,10 +72,9 @@ void VttView::CreateQtPartControl(QWidget *parent)
 	connect(m_Controls.comboBoxSteps, SIGNAL(currentIndexChanged(const int &)), this, SLOT(OnStepsChanged(const int &)));
 	connect(m_Controls.ButtonPrev, SIGNAL(clicked()), this, SLOT(OnButtonPrev()));
 	connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
-
 }
 
-//鍝嶅簲data manager 閫夋嫨鍙樺寲
+//响应data manager 选择变化
 void VttView::OnSelectionChanged(berry::IWorkbenchPart::Pointer /*source*/, const QList<mitk::DataNode::Pointer>& nodes)
 {
 	MITK_INFO<<"VttView::OnSelectionChanged";
@@ -158,15 +170,18 @@ void VttView::OnButtonPrev()
 
 void VttView::OnButtonNext()
 {	
-	berry::IWorkbenchPage::Pointer page = this->GetSite()->GetPage();
-	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(this->GetDataStorageReference()));
-	//page->OpenEditor(input,"org.mitk.editors.stdmultiwidget");
-	page->OpenEditor(input,"org.vtt.myeditor");
-	
-
 	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
 	currentIndex++;
 	if (currentIndex < m_Controls.comboBoxSteps->count())
 		m_Controls.comboBoxSteps->setCurrentIndex(currentIndex);
 }
 
+#pragma region something
+void VttView::OpenVttEditor()
+{
+	berry::IWorkbenchPage::Pointer page = this->GetSite()->GetPage();
+	mitk::DataStorageEditorInput::Pointer input(new mitk::DataStorageEditorInput(this->GetDataStorageReference()));
+	page->CloseAllEditors(false);
+	page->OpenEditor(input,"org.vtt.myeditor");
+}
+#pragma endregion

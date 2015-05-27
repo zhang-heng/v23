@@ -10,10 +10,12 @@ set(INTERNAL_CPP_FILES
   FocusPoint.cpp
   VNavigation.cpp
   XrayManage.cpp
+  DrrTest.cpp
 )
 
 set(UI_FILES
   src/internal/VttViewControls.ui
+  src/internal/DrrTest.ui
 )
 
 set(MOC_H_FILES
@@ -25,6 +27,7 @@ set(MOC_H_FILES
   src/internal/FocusPoint.h
   src/internal/VNavigation.h
   src/internal/XrayManage.h
+  src/internal/DrrTest.h
 )
 
 # list of resource files which can be used by the plug-in

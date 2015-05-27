@@ -50,7 +50,7 @@ protected slots:
 	void OnStepsChanged(const int &step);
 	void OnButtonPrev();
 	void OnButtonNext();
-
+	void OpenVttEditor();
 protected:
 	virtual void CreateQtPartControl(QWidget *parent);
 	virtual void SetFocus();
