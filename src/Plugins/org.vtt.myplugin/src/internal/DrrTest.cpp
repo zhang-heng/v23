@@ -1,12 +1,18 @@
 #include "DrrTest.h"
 
+#include <mitkDataNodeFactory.h>
+
+
+
 CDrrTest::CDrrTest(QWidget *parent /*= 0*/)
 {
 	m_ui.setupUi(this);
 
 	m_ui.sx->setRange(-100,100);
+	m_ui.sx->setValue(1);
 	connect(m_ui.sx, SIGNAL(valueChanged(double)), this, SLOT(On_sx(double)));
 	m_ui.sy->setRange(-100,100);
+	m_ui.sy->setValue(1);
 	connect(m_ui.sy, SIGNAL(valueChanged(double)), this, SLOT(On_sy(double)));
 
 	m_ui.dx->setRange(1,1000);
@@ -48,92 +54,111 @@ CDrrTest::CDrrTest(QWidget *parent /*= 0*/)
 
 	m_ui.threshold->setRange(-300,300);
 	connect(m_ui.threshold, SIGNAL(valueChanged(double)), this, SLOT(On_threshold(double)));
+
+	initData();
 }
 
 void CDrrTest::On_sx(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_sy(double i)
 { 
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_dx(int i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_dy(int i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_sid(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_tx(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_ty(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_tz(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_rx(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_ry(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_rz(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_cx(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_cy(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_cz(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_o2Dx(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 
 void CDrrTest::On_o2Dy(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
 void CDrrTest::On_threshold(double i)
 {
 	cout<<i<<endl;
+	ShowDRR();
 }
- 
+
 void CDrrTest::setCloser(std::function<void ()> f)
 { 
 	m_closer = f;
@@ -142,4 +167,69 @@ void CDrrTest::setCloser(std::function<void ()> f)
 void CDrrTest::closeEvent( QCloseEvent * ce )
 {
 	m_closer();
+}
+
+#define V(C) m_ui.C->value()
+
+#define MODLE_PATH "D:\\kuaipan\\Work\\MITK\\phantom.mha"
+void CDrrTest::initData()
+{
+	auto dataNode = mitk::DataNode::New();
+	dataNode->SetName("node");
+	auto dn = mitk::Image::New();
+	dataNode->SetData(dn);
+	ds = mitk::StandaloneDataStorage::New(); 
+	ds->Add(dataNode);
+	mitk::DataNodeFactory::Pointer reader=mitk::DataNodeFactory::New();
+	try
+	{
+		reader->SetFileName(MODLE_PATH);
+		reader->Update();
+		auto node = reader->GetOutput(); 
+		auto image = dynamic_cast<mitk::Image*>(node->GetData());
+		m_drr = new CDigitallyReconstructedRadiograph(image);
+	}
+	catch(...)
+	{
+		return;
+	}
+	renderWindow.GetRenderer()->SetDataStorage(ds);
+	mitk::TimeGeometry::Pointer geo = ds->ComputeBoundingGeometry3D(ds->GetAll());
+	mitk::RenderingManager::GetInstance()->InitializeViews( geo );
+	mitk::SliceNavigationController::Pointer sliceNaviController = renderWindow.GetSliceNavigationController();
+	if (sliceNaviController)
+		sliceNaviController->GetSlice()->SetPos( 0 );
+	renderWindow.show();
+	renderWindow.resize( 512, 512 );
+}
+
+void CDrrTest::ShowDRR()
+{
+	auto image = m_drr->CreatDRR(V(sx),V(sy),
+		V(dx),V(dy),
+		V(sid),
+		V(tx),V(ty),V(tz),
+		V(rx),V(ry),V(rz),
+		V(cx),V(cy),V(cz),
+		V(o2Dx),V(o2Dy),
+		V(threshold));
+	auto node = ds->GetNamedNode("node");
+	node->SetData(image);
+
+	//mitk::DataNodeFactory::Pointer reader=mitk::DataNodeFactory::New();
+	//reader->SetFileName("d://xxx.png");
+	//reader->Update();
+	//auto nodxe = reader->GetOutput(); 
+	//node->SetData(nodxe->GetData()); 
+
+
+
+
+	renderWindow.GetRenderer()->SetDataStorage(ds);
+	mitk::TimeGeometry::Pointer geo = ds->ComputeBoundingGeometry3D(ds->GetAll());
+	mitk::RenderingManager::GetInstance()->InitializeViews( geo );
+	mitk::SliceNavigationController::Pointer sliceNaviController = renderWindow.GetSliceNavigationController();
+	if (sliceNaviController)
+		sliceNaviController->GetSlice()->SetPos( 0 );
+
 }

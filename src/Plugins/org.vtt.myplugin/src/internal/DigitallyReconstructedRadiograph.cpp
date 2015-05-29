@@ -11,8 +11,20 @@
 #include "itkRayCastInterpolateImageFunction.h"
 
 #include <mitkDataNodeFactory.h>
+#include <mitkImageCast.h>
+#include <mitkITKImageImport.h>
 
-CDigitallyReconstructedRadiograph::CDigitallyReconstructedRadiograph
+CDigitallyReconstructedRadiograph::CDigitallyReconstructedRadiograph(mitk::Image::Pointer image)
+{
+	const     unsigned int  Dimension = 3;
+	typedef   short         InputPixelType;
+	typedef   unsigned char OutputPixelType;
+	typedef itk::Image< InputPixelType,  Dimension >   InputImageType; 
+	InputImageType::Pointer itkImage;
+	m_image = image;
+}
+
+mitk::Image::Pointer CDigitallyReconstructedRadiograph::CreatDRR
 	(float sx, float sy,                      //输出的像素间距
 	int dx = 501, int dy = 501,               //输出尺寸
 	float sid = 400,                          //射线源距离 1000?
@@ -32,99 +44,8 @@ CDigitallyReconstructedRadiograph::CDigitallyReconstructedRadiograph
 	typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
 	typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
 	InputImageType::Pointer image;
+	mitk::CastToItkImage(m_image, image);
 
-	if (input_name)
-	{
-		typedef itk::ImageFileReader< InputImageType >  ReaderType;
-		ReaderType::Pointer reader = ReaderType::New();
-		reader->SetFileName( input_name );
-
-		mitk::DataNodeSource::OutputType::Pointer mitkReaderType;
-		mitk::DataNodeFactory::Pointer mitkReader = mitk::DataNodeFactory::New();
-		try
-		{
-			reader->Update();
-
-			mitkReader->SetFileName(input_name);
-			mitkReader->Update();
-			mitkReaderType = mitkReader->GetOutput();
-		}
-		catch( itk::ExceptionObject & err )
-		{
-			std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
-			std::cerr << err << std::endl;
-			return ;//EXIT_FAILURE;
-		}
-		image = reader->GetOutput();
-	}
-	//else
-	//{   // No input image specified so create a cube
-	//	image = InputImageType::New();
-	//	InputImageType::SpacingType spacing;
-	//	spacing[0] = 3.;
-	//	spacing[1] = 3.;
-	//	spacing[2] = 3.;
-	//	image->SetSpacing( spacing );
-	//	InputImageType::PointType origin;
-	//	origin[0] = 0.;
-	//	origin[1] = 0.;
-	//	origin[2] = 0.;
-	//	image->SetOrigin( origin );
-	//	InputImageType::IndexType start;
-	//	start[0] =   0;  // first index on X
-	//	start[1] =   0;  // first index on Y
-	//	start[2] =   0;  // first index on Z
-	//	InputImageType::SizeType  size;
-	//	size[0]  = 61;  // size along X
-	//	size[1]  = 61;  // size along Y
-	//	size[2]  = 61;  // size along Z
-	//	InputImageType::RegionType region;
-	//	region.SetSize( size );
-	//	region.SetIndex( start );
-	//	image->SetRegions( region );
-	//	image->Allocate();
-	//	image->FillBuffer(0);
-	//	image->Update();
-	//	typedef itk::ImageRegionIteratorWithIndex< InputImageType > IteratorType;
-	//	IteratorType iterate( image, image->GetLargestPossibleRegion() );
-	//	while ( ! iterate.IsAtEnd() )
-	//	{
-	//		InputImageType::IndexType idx = iterate.GetIndex();
-	//		if (   (idx[0] >= 6) && (idx[0] <= 54)
-	//			&& (idx[1] >= 6) && (idx[1] <= 54)
-	//			&& (idx[2] >= 6) && (idx[2] <= 54)
-	//			&& (   (   ((idx[0] <= 11) || (idx[0] >= 49))
-	//			&& ((idx[1] <= 11) || (idx[1] >= 49)))
-	//			|| (   ((idx[0] <= 11) || (idx[0] >= 49))
-	//			&& ((idx[2] <= 11) || (idx[2] >= 49)))
-	//			|| (   ((idx[1] <= 11) || (idx[1] >= 49))
-	//			&& ((idx[2] <= 11) || (idx[2] >= 49))) ))
-	//		{
-	//			iterate.Set(10);
-	//		}
-	//		else if (   (idx[0] >= 18) && (idx[0] <= 42)
-	//			&& (idx[1] >= 18) && (idx[1] <= 42)
-	//			&& (idx[2] >= 18) && (idx[2] <= 42)
-	//			&& (   (   ((idx[0] <= 23) || (idx[0] >= 37))
-	//			&& ((idx[1] <= 23) || (idx[1] >= 37)))
-	//			|| (   ((idx[0] <= 23) || (idx[0] >= 37))
-	//			&& ((idx[2] <= 23) || (idx[2] >= 37)))
-	//			|| (   ((idx[1] <= 23) || (idx[1] >= 37))
-	//			&& ((idx[2] <= 23) || (idx[2] >= 37))) ))
-	//		{
-	//			iterate.Set(60);
-	//		}
-	//		else if ((idx[0] == 30) && (idx[1] == 30) && (idx[2] == 30))
-	//		{
-	//			iterate.Set(100);
-	//		}
-	//		++iterate;
-	//	}
-	//}
-
-#ifdef DEBUG
-
-#endif
 	if (verbose)
 	{
 		unsigned int i;
@@ -293,36 +214,31 @@ CDigitallyReconstructedRadiograph::CDigitallyReconstructedRadiograph
 			<< origin[2] << std::endl;
 	}
 	// create writer
-	if (output_name)
-	{
-		// The output of the resample filter can then be passed to a writer to
-		// save the DRR image to a file.
 
-		typedef itk::RescaleIntensityImageFilter<InputImageType, OutputImageType> RescaleFilterType;
-		RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-		rescaler->SetOutputMinimum(   0 );
-		rescaler->SetOutputMaximum( 255 );
-		rescaler->SetInput( filter->GetOutput() );
-		typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-		WriterType::Pointer writer = WriterType::New();
-		writer->SetFileName( output_name );
-		writer->SetInput( rescaler->GetOutput() );
-		try
-		{
-			std::cout << "Writing image: " << output_name << std::endl;
-			writer->Update();
-		}
-		catch( itk::ExceptionObject & err )
-		{
-			std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
-			std::cerr << err << std::endl;
-		}
+	// The output of the resample filter can then be passed to a writer to
+	// save the DRR image to a file.
+
+	typedef itk::RescaleIntensityImageFilter<InputImageType, OutputImageType> RescaleFilterType;
+	RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+	rescaler->SetOutputMinimum(   0 );
+	rescaler->SetOutputMaximum( 255 );
+	rescaler->SetInput( filter->GetOutput() );
+	typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+	WriterType::Pointer writer = WriterType::New();
+	try
+	{ 
+		rescaler->Update();
+		auto mitkImage =mitk::Image::New();
+		mitk::CastToMitkImage(rescaler->GetOutput(),mitkImage);
+		return mitkImage;
 	}
-	else
+	catch( itk::ExceptionObject & err )
 	{
-		filter->Update();
+		std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+		std::cerr << err << std::endl;
 	}
-	return ;//EXIT_SUCCESS;
+
+	return nullptr;//EXIT_SUCCESS;
 }
 
 

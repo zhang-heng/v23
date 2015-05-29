@@ -6,7 +6,10 @@
 #include "ui_DrrTest.h"
 #include <QDialog>
 #include <QmitkAbstractRenderEditor.h>
+#include <mitkStandaloneDataStorage.h>
+#include <QmitkRenderWindow.h>
 
+#include "DigitallyReconstructedRadiograph.h"
 class CDrrTest: public QDialog
 {
 	Q_OBJECT
@@ -35,8 +38,13 @@ protected slots:
 	void On_o2Dy(double i);
 	void On_threshold(double i);
 protected:
-	void closeEvent(QCloseEvent * ce);
 	Ui::DrrTest m_ui;
+	void closeEvent(QCloseEvent * ce);
+	void initData();
+	void ShowDRR();
+	mitk::StandaloneDataStorage::Pointer ds;
+	QmitkRenderWindow renderWindow; 
+	CDigitallyReconstructedRadiograph *m_drr;
 };
 
 #endif // DrrTest_h

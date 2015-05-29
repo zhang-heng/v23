@@ -76,6 +76,8 @@ void VttView::CreateQtPartControl(QWidget *parent)
 	connect(m_Controls.comboBoxSteps, SIGNAL(currentIndexChanged(const int &)), this, SLOT(OnStepsChanged(const int &)));
 	connect(m_Controls.ButtonPrev, SIGNAL(clicked()), this, SLOT(OnButtonPrev()));
 	connect(m_Controls.ButtonNext, SIGNAL(clicked()), this, SLOT(OnButtonNext()));
+
+	TestDrrDlg();
 }
 
 //响应data manager 选择变化
@@ -161,7 +163,6 @@ void VttView::OnButtonPrev()
 
 void VttView::OnButtonNext()
 {	
-	TestDrrDlg();
 	int currentIndex = m_Controls.comboBoxSteps->currentIndex();
 	currentIndex++;
 	if (currentIndex < m_Controls.comboBoxSteps->count())
