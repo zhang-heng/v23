@@ -172,35 +172,93 @@ void CDrrTest::closeEvent( QCloseEvent * ce )
 #define V(C) m_ui.C->value()
 
 #define MODLE_PATH "D:\\kuaipan\\Work\\MITK\\phantom.mha"
+
+#include <mitkImagePixelReadAccessor.h>
+#include <mitkImagePixelWriteAccessor.h>
+
+#include <mitkImageReadAccessor.h>
+#include <mitkImageWriteAccessor.h>
+
+#include <mitkImageWriter.h>
+#include <mitkSurface.h>
+#include <mitkSurfaceToImageFilter.h>
+
 void CDrrTest::initData()
 {
-	auto dataNode = mitk::DataNode::New();
-	dataNode->SetName("node");
-	auto dn = mitk::Image::New();
-	dataNode->SetData(dn);
-	ds = mitk::StandaloneDataStorage::New(); 
-	ds->Add(dataNode);
-	mitk::DataNodeFactory::Pointer reader=mitk::DataNodeFactory::New();
-	try
-	{
-		reader->SetFileName(MODLE_PATH);
-		reader->Update();
-		auto node = reader->GetOutput(); 
-		auto image = dynamic_cast<mitk::Image*>(node->GetData());
-		m_drr = new CDigitallyReconstructedRadiograph(image);
-	}
-	catch(...)
-	{
-		return;
-	}
-	renderWindow.GetRenderer()->SetDataStorage(ds);
-	mitk::TimeGeometry::Pointer geo = ds->ComputeBoundingGeometry3D(ds->GetAll());
-	mitk::RenderingManager::GetInstance()->InitializeViews( geo );
-	mitk::SliceNavigationController::Pointer sliceNaviController = renderWindow.GetSliceNavigationController();
-	if (sliceNaviController)
-		sliceNaviController->GetSlice()->SetPos( 0 );
-	renderWindow.show();
-	renderWindow.resize( 512, 512 );
+	////生成实验体数据
+	//mitk::DataNodeFactory::Pointer reader=mitk::DataNodeFactory::New();
+	//reader->SetFileName("C:\\Users\\kay\\Downloads\\test\\sphere.stl");
+	//reader->Update();
+	//auto node = reader->GetOutput();
+	//mitk::Surface::Pointer surface = dynamic_cast<mitk::Surface*>(node->GetData());
+
+	//reader->SetFileName("C:\\Users\\kay\\Downloads\\test\\phantom.nrrd");
+	//reader->Update();
+	//auto node2 = reader->GetOutput();
+	//mitk::Image::Pointer image = dynamic_cast<mitk::Image*>(node2->GetData());
+
+	//mitk::SurfaceToImageFilter::Pointer surfaceToImageFilter = mitk::SurfaceToImageFilter::New();
+	//surfaceToImageFilter->MakeOutputBinaryOn();
+	//surfaceToImageFilter->SetInput(surface);
+	//surfaceToImageFilter->SetImage(image);
+	//surfaceToImageFilter->Update();
+	//auto image2 = surfaceToImageFilter->GetOutput();
+
+	//for (int iz =0; iz <image->GetDimension(2); iz++)
+	//{
+	//	mitk::ImagePixelWriteAccessor<float,2> writeAccess(image,image->GetSliceData(iz));
+	//	mitk::ImagePixelReadAccessor<unsigned char,2> readAccess(image2, image2->GetSliceData(iz));
+	//	for(int ix = 0; ix<image2->GetDimension(0); ix++)
+	//	{
+	//		for(int iy = 0; iy<image2->GetDimension(1); iy++)
+	//		{
+	//			itk::Index<2> idx = {{ ix, iy }};
+	//			auto v = readAccess.GetPixelByIndex(idx);
+	//			if (v>0)
+	//			{
+	//				writeAccess.SetPixelByIndex(idx, 0x0fff);
+	//			}
+	//		}
+	//	}
+	//}
+	//mitk::ImageWriter::Pointer writer = mitk::ImageWriter::New();
+	//writer->SetInput(image);
+	//writer->SetFileName("C:\\Users\\kay\\Downloads\\test\\phantom2.nrrd");
+	//writer->Update();
+	//return;
+
+
+
+
+	////drrTest
+	//mitk::ImageGenerator::GenerateRandomImage<float>(dimX,dimY);
+	//auto dataNode = mitk::DataNode::New();
+	//dataNode->SetName("node");
+	//auto dn = mitk::Image::New();
+	//dataNode->SetData(dn);
+	//ds = mitk::StandaloneDataStorage::New();
+	//ds->Add(dataNode);
+	//mitk::DataNodeFactory::Pointer reader=mitk::DataNodeFactory::New();
+	//try
+	//{
+	//	reader->SetFileName(MODLE_PATH);
+	//	reader->Update();
+	//	auto node = reader->GetOutput();
+	//	auto image = dynamic_cast<mitk::Image*>(node->GetData());
+	//	m_drr = new CDigitallyReconstructedRadiograph(image);
+	//}
+	//catch(...)
+	//{
+	//	return;
+	//}
+	//renderWindow.GetRenderer()->SetDataStorage(ds);
+	//mitk::TimeGeometry::Pointer geo = ds->ComputeBoundingGeometry3D(ds->GetAll());
+	//mitk::RenderingManager::GetInstance()->InitializeViews( geo );
+	//mitk::SliceNavigationController::Pointer sliceNaviController = renderWindow.GetSliceNavigationController();
+	//if (sliceNaviController)
+	//	sliceNaviController->GetSlice()->SetPos( 0 );
+	//renderWindow.show();
+	//renderWindow.resize( 512, 512 );
 }
 
 void CDrrTest::ShowDRR()
@@ -220,10 +278,7 @@ void CDrrTest::ShowDRR()
 	//reader->SetFileName("d://xxx.png");
 	//reader->Update();
 	//auto nodxe = reader->GetOutput(); 
-	//node->SetData(nodxe->GetData()); 
-
-
-
+	//node->SetData(nodxe->GetData());
 
 	renderWindow.GetRenderer()->SetDataStorage(ds);
 	mitk::TimeGeometry::Pointer geo = ds->ComputeBoundingGeometry3D(ds->GetAll());
@@ -231,5 +286,4 @@ void CDrrTest::ShowDRR()
 	mitk::SliceNavigationController::Pointer sliceNaviController = renderWindow.GetSliceNavigationController();
 	if (sliceNaviController)
 		sliceNaviController->GetSlice()->SetPos( 0 );
-
 }
